@@ -2,14 +2,14 @@ package services
 
 import "github.com/jinzhu/gorm"
 
-type Service struct {
+type Storage struct {
 	DB *gorm.DB
 }
 
-func (s Service) NewDB() Service {
+func (s Storage) NewDB() {
 	db, err := gorm.Open("sqlite3", "test.db")
 	if err != nil {
 		panic("failed to connect database")
 	}
-	return Service{DB: db}
+	s.DB = db
 }
