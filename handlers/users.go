@@ -9,7 +9,7 @@ import (
 
 type UserService interface {
 	GetByID(ID string) models.User
-	Create(*models.User)
+	Create(*models.User) models.User
 }
 
 func UserCreate(service UserService) func(c *gin.Context) {
