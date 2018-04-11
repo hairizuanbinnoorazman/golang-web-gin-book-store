@@ -6,18 +6,18 @@ import (
 
 // User struct defines the user entity in the application
 type User struct {
-	ID                       string `json:"id"`
-	FirstName                string `json:"first_name"`
-	LastName                 string `json:"last_name"`
-	Email                    string `json:"email"`
-	Password                 string
-	ForgetPasswordToken      string
-	ForgetPasswordExpiryDate time.Time
-	Activated                bool
-	Address                  string
-	LastLoginAt              time.Time
-	CreatedAt                time.Time
-	UpdatedAt                time.Time
+	ID                       string    `json:"id"`
+	FirstName                string    `json:"first_name"`
+	LastName                 string    `json:"last_name"`
+	Email                    string    `json:"email"`
+	Password                 string    `json:"-"`
+	ForgetPasswordToken      string    `json:"-"`
+	ForgetPasswordExpiryDate time.Time `json:"-"`
+	Activated                bool      `json:"activated"`
+	Address                  string    `json:"address"`
+	LastLoginAt              time.Time `json:"-"`
+	CreatedAt                time.Time `json:"-"`
+	UpdatedAt                time.Time `json:"-"`
 }
 
 type AdminUser struct {
