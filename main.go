@@ -8,7 +8,7 @@ import (
 
 type RouteServices struct {
 	Service services.Storage
-	User    services.User2
+	User    services.User
 }
 
 func setupRouter(rs RouteServices) *gin.Engine {
