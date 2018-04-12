@@ -24,9 +24,10 @@ type Category struct {
 	UpdatedAt   time.Time
 }
 
-// Subcategory describes a product subcategory metadata in the store
+// SubCategory describes a product subcategory metadata in the store
 type SubCategory struct {
 	ID          string
+	CategoryID  string
 	Name        string
 	Description string
 	CreatedAt   time.Time
