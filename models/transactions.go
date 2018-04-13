@@ -6,9 +6,12 @@ import "time"
 // This could be movement of stock between stores or purchase of stock from supplier etc
 type Transaction struct {
 	ID        string
+	StoreID   string
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
+
+func (t Transaction) Validate() error { return nil }
 
 type TransactionItem struct {
 	ID            string
@@ -20,17 +23,21 @@ type TransactionItem struct {
 	UpdatedAt     time.Time
 }
 
+func (t TransactionItem) Validate() error { return nil }
+
 type InternalTransaction struct {
 	Transaction
 	Details       string
-	Requester     string
-	Approver      string
-	Status        string
+	requesterID   string
+	approverID    string
+	status        string
 	Type          string
-	RequestDate   time.Time
-	ApprovedDate  time.Time
+	requestDate   time.Time
+	approvedDate  time.Time
 	DeliveredDate time.Time
 }
+
+func (i InternalTransaction) Validate() error { return nil }
 
 type InternalTransactionItem struct {
 	TransactionItem
