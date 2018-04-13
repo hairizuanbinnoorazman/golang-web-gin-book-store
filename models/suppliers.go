@@ -9,10 +9,20 @@ type Supplier struct {
 	ID                 string
 	Name               string
 	Description        string
-	Address            string
 	Status             string
 	MainContactID      string
 	SecondaryContactID string
 	CreatedAt          time.Time
 	UpdatedAt          time.Time
+}
+
+type SupplierContact struct {
+	ID              string
+	Name            string
+	Email           string
+	Role            string
+	HomeNumber      string
+	HandphoneNumber string
+	CreatedAt       time.Time
+	UpdatedAt       time.Time
 }
