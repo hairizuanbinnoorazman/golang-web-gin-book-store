@@ -13,8 +13,19 @@ type RouteServices struct {
 
 func setupRouter(rs RouteServices) *gin.Engine {
 	router := gin.Default()
-	router.GET("/user/:id", handlers.UserGet(rs.User))
+
+	// Auth routes
+	router.PUT("/signin")
+	router.GET("/activate")
+	router.GET("/reactivate")
+	router.GET("/forgetpassword")
+	router.GET("/confirmforget")
+
+	// User routes
 	router.POST("/user", handlers.UserCreate(rs.User))
+	router.PUT("/user")
+	router.GET("/user/:id", handlers.UserGet(rs.User))
+
 	return router
 }
 
