@@ -23,7 +23,7 @@ func setupRouter(rs RouteServices) *gin.Engine {
 
 	// User routes
 	router.POST("/user", handlers.UserCreate(rs.User))
-	router.PUT("/user")
+	router.PUT("/user", handlers.UserUpdate(rs.User))
 	router.GET("/user/:id", handlers.UserGet(rs.User))
 
 	return router
