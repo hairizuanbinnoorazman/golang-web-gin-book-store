@@ -39,8 +39,6 @@ func NewUser(firstName, lastName, email, password string) *User {
 
 func (u User) validateName() error { return nil }
 
-func (u User) validatePassword() error { return nil }
-
 func (u User) validateEmail() error { return nil }
 
 func (u User) validateAddress() error { return nil }
