@@ -1,8 +1,17 @@
 package models
 
 import (
+	"errors"
 	"time"
 )
+
+var NameShortErr = errors.New("Name cannot be shorter than 4 characters")
+var NameLongErr = errors.New("Name cannot be longer than 120 characters")
+var AddressShortErr = errors.New("Address cannot be longer than 120 characters")
+var PasswordShortErr = errors.New("Password cannot be shorter than 8 characters")
+var PasswordLongErr = errors.New("Password cannot be longer than 120 characters")
+var PasswordInvalidErr = errors.New("Password requires at least 1 capital letter, 1 small letter and a number")
+var EmailInvalidErr = errors.New("Email is invalid")
 
 // User struct defines the user entity in the application
 // Fields need to be set as public in order for other packages to access them
