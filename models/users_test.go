@@ -8,17 +8,17 @@ import (
 
 func TestValidate(t *testing.T) {
 	type testCase struct {
-		TestName       string
-		FirstName      string
-		LastName       string
-		Password       string
-		Email          string
-		Address        string
-		ExpectedOutput string
+		TestName      string
+		FirstName     string
+		LastName      string
+		Password      string
+		Email         string
+		Address       string
+		ExpectedError error
 	}
 
 	cases := []testCase{
-		{TestName: "Zero", ExpectedOutput: models.NameShortErr.Error()},
+		{TestName: "Zero", ExpectedError: models.ErrNameShort},
 	}
 
 	for _, singleCase := range cases {
@@ -29,14 +29,69 @@ func TestValidate(t *testing.T) {
 			Address:  singleCase.Address,
 		}
 		err := u.Validate()
-		if err != nil {
-			if err.Error() != singleCase.ExpectedOutput {
-				t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedOutput, err.Error())
-			}
-		} else {
-			if singleCase.ExpectedOutput != "nil" {
-				t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedOutput, "nil")
-			}
+		if err == nil && err != singleCase.ExpectedError {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), "nil")
+		}
+		if singleCase.ExpectedError == nil && err != singleCase.ExpectedError {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "nil", err.Error())
+		}
+		if err != singleCase.ExpectedError {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), err.Error())
 		}
 	}
 }
+
+func TestForgetPassword(t *testing.T) {
+	type testCase struct {
+		TestName      string
+		User          models.User
+		ExpectedError error
+	}
+
+	cases := []testCase{}
+
+	for _, singleCase := range cases {
+		_, err := singleCase.User.ForgetPassword()
+		if err == nil && err != singleCase.ExpectedError {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), "nil")
+		}
+		if singleCase.ExpectedError == nil && err != singleCase.ExpectedError {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "nil", err.Error())
+		}
+		if err != singleCase.ExpectedError {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), err.Error())
+		}
+	}
+}
+
+func TestChangePasswordFromForget(t *testing.T) {
+	type testCase struct {
+		TestName      string
+		User          models.User
+		NewPassword   string
+		ExpectedError error
+	}
+
+	cases := []testCase{}
+
+	for _, singleCase := range cases {
+		token, _ := singleCase.User.ForgetPassword()
+		err := singleCase.User.ChangePasswordFromForget(token, singleCase.NewPassword)
+		if err == nil && err != singleCase.ExpectedError {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), "nil")
+		}
+		if singleCase.ExpectedError == nil && err != singleCase.ExpectedError {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "nil", err.Error())
+		}
+		if err != singleCase.ExpectedError {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), err.Error())
+		}
+	}
+}
+
+func TestChangePassword(t *testing.T) {
+}
+
+func TestReactivateToken(t *testing.T) {}
+
+func TestActivate(t *testing.T) {}
