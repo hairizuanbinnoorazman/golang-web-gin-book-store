@@ -28,12 +28,12 @@ func (t TransactionItem) Validate() error { return nil }
 type InternalTransaction struct {
 	Transaction
 	Details       string
-	requesterID   string
-	approverID    string
-	status        string
+	RequesterID   string
+	ApproverID    string
+	Status        string
 	Type          string
-	requestDate   time.Time
-	approvedDate  time.Time
+	RequestDate   time.Time
+	ApprovedDate  time.Time
 	DeliveredDate time.Time
 }
 
