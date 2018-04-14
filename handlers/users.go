@@ -9,6 +9,7 @@ import (
 
 type UserService interface {
 	GetByID(ID string) (models.User, error)
+	GetByEmail(Email string) (models.User, error)
 	Create(*models.User) (models.User, error)
 	Update(*models.User) (models.User, error)
 }
@@ -65,5 +66,24 @@ func UserUpdate(service UserService) func(c *gin.Context) {
 			c.JSON(http.StatusBadRequest, "")
 		}
 		c.JSON(http.StatusOK, user)
+	}
+}
+
+func UserForgetPassword(service UserService) func(c *gin.Context) {
+	return func(c *gin.Context) {
+		type userForget struct {
+			Email string
+		}
+		var forget userForget
+		c.BindJSON(forget)
+		user, err := service.GetByEmail(forget.Email)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, "")
+		}
+		_, errToken := user.ForgetPassword()
+		if errToken != nil {
+			c.JSON(http.StatusBadRequest, "")
+		}
+		c.JSON(http.StatusOK, "")
 	}
 }
