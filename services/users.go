@@ -24,6 +24,16 @@ func (u User) Create(a *models.User) (models.User, error) {
 	return lol, nil
 }
 
+func (u User) Update(a *models.User) (models.User, error) {
+	lol := models.User{FirstName: "kcmkamcklamlc", LastLoginAt: time.Now()}
+	return lol, nil
+}
+
+func (u User) GetByEmail(a string) (models.User, error) {
+	lol := models.User{FirstName: "kcmkamcklamlc", LastLoginAt: time.Now()}
+	return lol, nil
+}
+
 type User2 struct {
 	TestData models.User
 }
