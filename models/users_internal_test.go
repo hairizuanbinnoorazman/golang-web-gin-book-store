@@ -30,7 +30,7 @@ func TestValidateName(t *testing.T) {
 	}
 }
 
-func TestValidatePassword(t *testing.T) {
+func TestSetPassword(t *testing.T) {
 	type testCase struct {
 		TestName       string
 		Password       string
@@ -41,8 +41,8 @@ func TestValidatePassword(t *testing.T) {
 	}
 
 	for _, singleCase := range cases {
-		tempUser := User{Password: singleCase.Password}
-		err := tempUser.validatePassword()
+		tempUser := User{}
+		err := tempUser.setPassword(singleCase.Password)
 		if err != nil {
 			if err.Error() != singleCase.ExpectedOutput {
 				t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedOutput, err.Error())
@@ -67,7 +67,32 @@ func TestValidateAddress(t *testing.T) {
 
 	for _, singleCase := range cases {
 		tempUser := User{Password: singleCase.Address}
-		err := tempUser.validatePassword()
+		err := tempUser.validateAddress()
+		if err != nil {
+			if err.Error() != singleCase.ExpectedOutput {
+				t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedOutput, err.Error())
+			}
+		} else {
+			if singleCase.ExpectedOutput != "nil" {
+				t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedOutput, "nil")
+			}
+		}
+	}
+}
+
+func TestValidateEmail(t *testing.T) {
+	type testCase struct {
+		TestName       string
+		Email          string
+		ExpectedOutput string
+	}
+	cases := []testCase{
+		{TestName: "Empty Password", Email: "", ExpectedOutput: "Email is invalid"},
+	}
+
+	for _, singleCase := range cases {
+		tempUser := User{Password: singleCase.Email}
+		err := tempUser.validateEmail()
 		if err != nil {
 			if err.Error() != singleCase.ExpectedOutput {
 				t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedOutput, err.Error())
