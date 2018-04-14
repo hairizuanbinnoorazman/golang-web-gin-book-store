@@ -12,7 +12,7 @@ func TestValidateName(t *testing.T) {
 		ExpectedOutput string
 	}
 	cases := []testCase{
-		{TestName: "Empty String", InputFirstName: "", InputLastName: "", ExpectedOutput: "Name cannot be shorter than 8 characters"},
+		{TestName: "Empty String", InputFirstName: "", InputLastName: "", ExpectedOutput: NameShortErr.Error()},
 	}
 
 	for _, singleCase := range cases {
@@ -37,7 +37,7 @@ func TestSetPassword(t *testing.T) {
 		ExpectedOutput string
 	}
 	cases := []testCase{
-		{TestName: "Empty Password", Password: "", ExpectedOutput: "Password is too short"},
+		{TestName: "Empty Password", Password: "", ExpectedOutput: PasswordShortErr.Error()},
 	}
 
 	for _, singleCase := range cases {
@@ -62,7 +62,7 @@ func TestValidateAddress(t *testing.T) {
 		ExpectedOutput string
 	}
 	cases := []testCase{
-		{TestName: "Empty Password", Address: "", ExpectedOutput: "Address is too short"},
+		{TestName: "Empty Password", Address: "", ExpectedOutput: AddressShortErr.Error()},
 	}
 
 	for _, singleCase := range cases {
@@ -87,7 +87,7 @@ func TestValidateEmail(t *testing.T) {
 		ExpectedOutput string
 	}
 	cases := []testCase{
-		{TestName: "Empty Password", Email: "", ExpectedOutput: "Email is invalid"},
+		{TestName: "Empty Password", Email: "", ExpectedOutput: EmailInvalidErr.Error()},
 	}
 
 	for _, singleCase := range cases {
