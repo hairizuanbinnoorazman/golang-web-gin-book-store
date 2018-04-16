@@ -90,6 +90,27 @@ func TestChangePasswordFromForget(t *testing.T) {
 }
 
 func TestChangePassword(t *testing.T) {
+	type testCase struct {
+		TestName      string
+		User          models.User
+		NewPassword   string
+		ExpectedError error
+	}
+
+	cases := []testCase{}
+
+	for _, singleCase := range cases {
+		err := singleCase.User.ChangePassword(singleCase.NewPassword)
+		if err == nil && err != singleCase.ExpectedError {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), "nil")
+		}
+		if singleCase.ExpectedError == nil && err != singleCase.ExpectedError {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "nil", err.Error())
+		}
+		if err != singleCase.ExpectedError {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), err.Error())
+		}
+	}
 }
 
 func TestReactivateToken(t *testing.T) {}
