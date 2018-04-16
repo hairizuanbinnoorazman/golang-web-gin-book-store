@@ -1,6 +1,7 @@
 package models_test
 
 import (
+	"strconv"
 	"testing"
 
 	"github.com/hairizuanbinnoorazman/golang-web-gin-book-store/models"
@@ -136,4 +137,30 @@ func TestReactivateToken(t *testing.T) {
 	}
 }
 
-func TestActivate(t *testing.T) {}
+func TestActivate(t *testing.T) {
+	type testCase struct {
+		TestName        string
+		User            models.User
+		ActivationToken string
+		ExpectedOutput  bool
+		ExpectedError   error
+	}
+
+	cases := []testCase{}
+
+	for _, singleCase := range cases {
+		status, err := singleCase.User.Activate(singleCase.ActivationToken)
+		if err == nil && err != singleCase.ExpectedError {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), "nil")
+		}
+		if singleCase.ExpectedError == nil && err != singleCase.ExpectedError {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "nil", err.Error())
+		}
+		if err != singleCase.ExpectedError {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), err.Error())
+		}
+		if status != singleCase.ExpectedOutput {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, strconv.FormatBool(singleCase.ExpectedOutput), strconv.FormatBool(singleCase.User.Activated))
+		}
+	}
+}
