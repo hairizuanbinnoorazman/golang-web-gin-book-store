@@ -33,6 +33,10 @@ type User struct {
 	UpdatedAt                time.Time `json:"-"`
 }
 
+// AdminUser struct defines an admin user entity in the application
+// Status in the field refers to whether the user is hired/attached etc
+// StartDate is the date when the user joined the company
+// EndDate is the date when the user left the company
 type AdminUser struct {
 	User
 	RoleID    string
@@ -76,3 +80,8 @@ func (u *User) ReactivateToken() (string, error) { return "", nil }
 // Activate user. You would need to provide a activation token to check if it correct.
 // If correct, it would return the status of the user which should be true or false
 func (u *User) Activate(activationToken string) (bool, error) { return false, nil }
+
+func (a AdminUser) validateStatus() error { return nil }
+
+// Validate function for admin users
+func (a AdminUser) Validate() error { return nil }
