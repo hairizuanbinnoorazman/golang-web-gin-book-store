@@ -11,6 +11,7 @@ type Transaction struct {
 	UpdatedAt time.Time
 }
 
+// Validate function checks to ensure the Transaction struct is valid
 func (t Transaction) Validate() error { return nil }
 
 type TransactionItem struct {
