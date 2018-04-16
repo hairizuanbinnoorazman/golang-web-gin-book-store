@@ -33,3 +33,15 @@ type SubCategory struct {
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 }
+
+type ShoppingBasket struct {
+	Items []Item
+}
+
+type Promotion interface {
+	RunPromotion()
+}
+
+func (sb ShoppingBasket) ApplyPromotion(a Promotion) Item {
+	return Item{}
+}
