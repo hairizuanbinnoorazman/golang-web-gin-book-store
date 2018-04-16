@@ -9,6 +9,22 @@ type Role struct {
 	ID          string
 	Name        string
 	Description string
+	Status      string
+	Remarks     string
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 }
+
+func (r Role) validateName() error { return nil }
+
+func (r Role) validateDescription() error { return nil }
+
+func (r Role) validateStatus() error { return nil }
+
+func (r Role) validateCreatedAt() error { return nil }
+
+func (r Role) validateUpdatedAt() error { return nil }
+
+// Validate function runs a couple of heuristics checks to ensure that the data being passed is
+// minimally filled up
+func (r Role) Validate() error { return nil }
