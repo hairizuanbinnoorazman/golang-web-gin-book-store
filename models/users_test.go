@@ -7,7 +7,7 @@ import (
 	"github.com/hairizuanbinnoorazman/golang-web-gin-book-store/models"
 )
 
-func TestValidate(t *testing.T) {
+func TestUserValidate(t *testing.T) {
 	type testCase struct {
 		TestName      string
 		FirstName     string
