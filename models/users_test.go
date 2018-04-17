@@ -20,6 +20,12 @@ func TestUserValidate(t *testing.T) {
 
 	cases := []testCase{
 		{TestName: "Zero", ExpectedError: models.ErrNameShort},
+		{TestName: "Missing Last Name", FirstName: "Lol", ExpectedError: models.ErrNameShort},
+		{TestName: "Missing First Name", LastName: "Miao", ExpectedError: models.ErrNameShort},
+		{TestName: "Email and password missing", FirstName: "Lol", LastName: "Miao", ExpectedError: models.ErrEmailInvalid},
+		{TestName: "Email missing", FirstName: "Lol", LastName: "Miao", Password: "acac", ExpectedError: models.ErrEmailInvalid},
+		{TestName: "All Filled Up - Password Short", FirstName: "Lol", LastName: "Miao", Password: "acac", Email: "aaa@aaa.aa", ExpectedError: models.ErrPasswordShort},
+		{TestName: "All Filled Up accordingly", FirstName: "Loal", LastName: "Miao", Password: "acaaaaac", Email: "aaa@aaa.aa", ExpectedError: nil},
 	}
 
 	for _, singleCase := range cases {
@@ -32,11 +38,9 @@ func TestUserValidate(t *testing.T) {
 		err := u.Validate()
 		if err == nil && err != singleCase.ExpectedError {
 			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), "nil")
-		}
-		if singleCase.ExpectedError == nil && err != singleCase.ExpectedError {
+		} else if singleCase.ExpectedError == nil && err != singleCase.ExpectedError {
 			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "nil", err.Error())
-		}
-		if err != singleCase.ExpectedError {
+		} else if err != singleCase.ExpectedError {
 			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), err.Error())
 		}
 	}
@@ -55,11 +59,9 @@ func TestForgetPassword(t *testing.T) {
 		_, err := singleCase.User.ForgetPassword()
 		if err == nil && err != singleCase.ExpectedError {
 			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), "nil")
-		}
-		if singleCase.ExpectedError == nil && err != singleCase.ExpectedError {
+		} else if singleCase.ExpectedError == nil && err != singleCase.ExpectedError {
 			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "nil", err.Error())
-		}
-		if err != singleCase.ExpectedError {
+		} else if err != singleCase.ExpectedError {
 			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), err.Error())
 		}
 	}
