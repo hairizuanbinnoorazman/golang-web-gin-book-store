@@ -48,21 +48,18 @@ func TestUserValidate(t *testing.T) {
 
 func TestForgetPassword(t *testing.T) {
 	type testCase struct {
-		TestName      string
-		User          models.User
-		ExpectedError error
+		TestName string
+		User     models.User
 	}
 
-	cases := []testCase{}
+	cases := []testCase{
+		{TestName: "Normal Scenario", User: models.User{}},
+	}
 
 	for _, singleCase := range cases {
-		_, err := singleCase.User.ForgetPassword()
-		if err == nil && err != singleCase.ExpectedError {
-			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), "nil")
-		} else if singleCase.ExpectedError == nil && err != singleCase.ExpectedError {
-			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "nil", err.Error())
-		} else if err != singleCase.ExpectedError {
-			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), err.Error())
+		token, _ := singleCase.User.ForgetPassword()
+		if token == "" {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "UUID Value", token)
 		}
 	}
 }
@@ -75,18 +72,20 @@ func TestChangePasswordFromForget(t *testing.T) {
 		ExpectedError error
 	}
 
-	cases := []testCase{}
+	cases := []testCase{
+		{TestName: "Normal Scenario", User: models.User{}, NewPassword: "aaaaaaaa", ExpectedError: nil},
+		{TestName: "Short Password", User: models.User{}, NewPassword: "aaaaaa", ExpectedError: models.ErrPasswordShort},
+		{TestName: "Same Password", User: models.User{Password: "aaaaaaaa"}, NewPassword: "aaaaaaaa", ExpectedError: nil},
+	}
 
 	for _, singleCase := range cases {
 		token, _ := singleCase.User.ForgetPassword()
 		err := singleCase.User.ChangePasswordFromForget(token, singleCase.NewPassword)
 		if err == nil && err != singleCase.ExpectedError {
 			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), "nil")
-		}
-		if singleCase.ExpectedError == nil && err != singleCase.ExpectedError {
+		} else if singleCase.ExpectedError == nil && err != singleCase.ExpectedError {
 			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "nil", err.Error())
-		}
-		if err != singleCase.ExpectedError {
+		} else if err != singleCase.ExpectedError {
 			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), err.Error())
 		}
 	}
@@ -100,17 +99,18 @@ func TestChangePassword(t *testing.T) {
 		ExpectedError error
 	}
 
-	cases := []testCase{}
+	cases := []testCase{
+		{TestName: "Normal Scenario", User: models.User{Password: "aaaaaaaa"}, NewPassword: "bbbbbbbb", ExpectedError: nil},
+		{TestName: "Same Password", User: models.User{Password: "12345678"}, NewPassword: "12345678", ExpectedError: models.ErrPasswordInvalid},
+	}
 
 	for _, singleCase := range cases {
 		err := singleCase.User.ChangePassword(singleCase.NewPassword)
 		if err == nil && err != singleCase.ExpectedError {
 			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), "nil")
-		}
-		if singleCase.ExpectedError == nil && err != singleCase.ExpectedError {
+		} else if singleCase.ExpectedError == nil && err != singleCase.ExpectedError {
 			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "nil", err.Error())
-		}
-		if err != singleCase.ExpectedError {
+		} else if err != singleCase.ExpectedError {
 			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), err.Error())
 		}
 	}
