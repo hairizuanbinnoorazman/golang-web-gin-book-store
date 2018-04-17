@@ -7,8 +7,7 @@ import (
 )
 
 type RouteServices struct {
-	Service services.Storage
-	User    services.User
+	User handlers.UserService
 }
 
 func setupRouter(rs RouteServices) *gin.Engine {
@@ -30,7 +29,7 @@ func setupRouter(rs RouteServices) *gin.Engine {
 }
 
 func main() {
-	rs := RouteServices{}
+	rs := RouteServices{User: services.User{}}
 	router := setupRouter(rs)
 	router.Run(":8000")
 }
