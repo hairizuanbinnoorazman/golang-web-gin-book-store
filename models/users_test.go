@@ -126,15 +126,9 @@ func TestReactivateToken(t *testing.T) {
 	cases := []testCase{}
 
 	for _, singleCase := range cases {
-		_, err := singleCase.User.ReactivateToken()
-		if err == nil && err != singleCase.ExpectedError {
-			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), "nil")
-		}
-		if singleCase.ExpectedError == nil && err != singleCase.ExpectedError {
-			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "nil", err.Error())
-		}
-		if err != singleCase.ExpectedError {
-			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), err.Error())
+		token, _ := singleCase.User.ReactivateToken()
+		if token == "" {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "UUID Value Expected", token)
 		}
 	}
 }
@@ -154,11 +148,9 @@ func TestActivate(t *testing.T) {
 		status, err := singleCase.User.Activate(singleCase.ActivationToken)
 		if err == nil && err != singleCase.ExpectedError {
 			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), "nil")
-		}
-		if singleCase.ExpectedError == nil && err != singleCase.ExpectedError {
+		} else if singleCase.ExpectedError == nil && err != singleCase.ExpectedError {
 			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "nil", err.Error())
-		}
-		if err != singleCase.ExpectedError {
+		} else if err != singleCase.ExpectedError {
 			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), err.Error())
 		}
 		if status != singleCase.ExpectedOutput {
