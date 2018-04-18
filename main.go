@@ -7,6 +7,11 @@ import (
 	"github.com/hairizuanbinnoorazman/golang-web-gin-book-store/services"
 )
 
+// RouteServices is a struct of interfaces that collates all required services needed by
+// the application. This struct is then passed to the setup router function which can then be used
+// to alter the actual implementation of the services being run.
+//
+// Having this allows us to mock the services and test it without hitting databases/external 3rd party APIs
 type RouteServices struct {
 	User handlers.UserService
 }
@@ -28,10 +33,10 @@ func setupRouter(rs RouteServices) *gin.Engine {
 
 	// Auth routes
 	router.PUT("/signin")
-	router.GET("/activate")
+	router.GET("/activate", handlers.UserActivate(rs.User))
 	router.GET("/reactivate")
 	router.GET("/forgetpassword", handlers.UserForgetPassword(rs.User))
-	router.GET("/confirmforget", handlers.UserConfirmForget(rs.User))
+	router.POST("/confirmforget", handlers.UserConfirmForget(rs.User))
 
 	// User routes
 	router.POST("/user", handlers.UserCreate(rs.User))
