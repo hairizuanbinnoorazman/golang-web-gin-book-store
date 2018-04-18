@@ -14,13 +14,34 @@ type UserService interface {
 	Update(*models.User) (models.User, error)
 }
 
+func UserConfirmForget(service UserService) func(c *gin.Context) {
+	return func(c *gin.Context) {
+		type ConfirmForget struct {
+			ForgetToken string
+			ID          string
+			NewPassword string
+		}
+		var confirmForget ConfirmForget
+		c.BindJSON(&confirmForget)
+		user, errGet := service.GetByID(confirmForget.ID)
+		if errGet != nil {
+			c.JSON(http.StatusInternalServerError, "")
+		}
+		errChange := user.ChangePasswordFromForget(confirmForget.ForgetToken, confirmForget.NewPassword)
+		if errChange != nil {
+			c.JSON(http.StatusInternalServerError, "")
+		}
+		c.JSON(http.StatusOK, "")
+	}
+}
+
 func UserCreate(service UserService) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		type Register struct {
-			FirstName string
-			LastName  string
-			Email     string
-			Password  string
+			FirstName string `json:"first_name"`
+			LastName  string `json:"last_name"`
+			Email     string `json:"email"`
+			Password  string `json:"password"`
 		}
 		var register Register
 		c.BindJSON(&register)
@@ -72,7 +93,7 @@ func UserUpdate(service UserService) func(c *gin.Context) {
 func UserForgetPassword(service UserService) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		type userForget struct {
-			Email string
+			Email string `json:"email"`
 		}
 		var forget userForget
 		c.BindJSON(forget)

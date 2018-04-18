@@ -31,7 +31,7 @@ func setupRouter(rs RouteServices) *gin.Engine {
 	router.GET("/activate")
 	router.GET("/reactivate")
 	router.GET("/forgetpassword", handlers.UserForgetPassword(rs.User))
-	router.GET("/confirmforget")
+	router.GET("/confirmforget", handlers.UserConfirmForget(rs.User))
 
 	// User routes
 	router.POST("/user", handlers.UserCreate(rs.User))
