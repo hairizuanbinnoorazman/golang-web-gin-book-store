@@ -7,6 +7,8 @@ import (
 	"github.com/hairizuanbinnoorazman/golang-web-gin-book-store/models"
 )
 
+// UserService interfaces defines the list of methods that the service needs to provide
+// for the user handlers
 type UserService interface {
 	GetByID(ID string) (models.User, error)
 	GetByEmail(Email string) (models.User, error)
@@ -14,6 +16,7 @@ type UserService interface {
 	Update(*models.User) (models.User, error)
 }
 
+// UserSignIn is a handler function meant to handle user signin
 func UserSignIn(service UserService) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		// Obtain the request details
@@ -39,6 +42,7 @@ func UserSignIn(service UserService) func(c *gin.Context) {
 	}
 }
 
+// UserActivate is a handler function meant to handle activation of users on the platform
 func UserActivate(service UserService) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		// Obtain the token and id value from the query params
@@ -58,6 +62,8 @@ func UserActivate(service UserService) func(c *gin.Context) {
 	}
 }
 
+// UserConfirmForget is a handler function meant to handle change of password
+// after the token and new password is passed in
 func UserConfirmForget(service UserService) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		type ConfirmForget struct {
@@ -79,6 +85,7 @@ func UserConfirmForget(service UserService) func(c *gin.Context) {
 	}
 }
 
+// UserCreate is a handler function meant to handle creation of new users
 func UserCreate(service UserService) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		type Register struct {
@@ -98,6 +105,7 @@ func UserCreate(service UserService) func(c *gin.Context) {
 	}
 }
 
+// UserGet is a handler function meant to handle creation of getting details of a user
 func UserGet(service UserService) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		id := c.Param("id")
@@ -109,6 +117,7 @@ func UserGet(service UserService) func(c *gin.Context) {
 	}
 }
 
+// UserUpdate is a handler function meant to handle update of the details of a user
 func UserUpdate(service UserService) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		type userUpdate struct {
@@ -134,6 +143,8 @@ func UserUpdate(service UserService) func(c *gin.Context) {
 	}
 }
 
+// UserForgetPassword is a handler function meant to initiate the creation of
+// forget password tokens etc
 func UserForgetPassword(service UserService) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		type userForget struct {
