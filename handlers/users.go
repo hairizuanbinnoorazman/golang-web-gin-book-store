@@ -14,6 +14,25 @@ type UserService interface {
 	Update(*models.User) (models.User, error)
 }
 
+func UserActivate(service UserService) func(c *gin.Context) {
+	return func(c *gin.Context) {
+		// Obtain the token and id value from the query params
+		q := c.Request.URL.Query()
+		token := q["token"][0]
+		id := q["id"][0]
+
+		user, errGet := service.GetByID(id)
+		if errGet != nil {
+			c.JSON(http.StatusInternalServerError, "")
+		}
+		_, errActivate := user.Activate(token)
+		if errActivate != nil {
+			c.JSON(http.StatusInternalServerError, "")
+		}
+		c.JSON(http.StatusOK, "")
+	}
+}
+
 func UserConfirmForget(service UserService) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		type ConfirmForget struct {
