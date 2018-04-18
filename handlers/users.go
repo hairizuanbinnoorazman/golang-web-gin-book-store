@@ -14,6 +14,31 @@ type UserService interface {
 	Update(*models.User) (models.User, error)
 }
 
+func UserSignIn(service UserService) func(c *gin.Context) {
+	return func(c *gin.Context) {
+		// Obtain the request details
+		type UserSignIn struct {
+			Email    string `json:"email"`
+			Password string `json:"password"`
+		}
+		var userSignIn UserSignIn
+		c.BindJSON(&userSignIn)
+		user, errGet := service.GetByEmail(userSignIn.Email)
+		if errGet != nil {
+			c.JSON(http.StatusUnauthorized, "")
+		}
+		errSignIn := user.SignIn(userSignIn.Email, userSignIn.Password)
+		if errSignIn != nil {
+			c.JSON(http.StatusUnauthorized, "")
+		}
+		userUpdated, errUpdate := service.Update(&user)
+		if errUpdate != nil {
+			c.JSON(http.StatusBadRequest, "")
+		}
+		c.JSON(http.StatusOK, userUpdated)
+	}
+}
+
 func UserActivate(service UserService) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		// Obtain the token and id value from the query params

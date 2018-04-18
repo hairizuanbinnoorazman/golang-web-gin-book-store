@@ -59,6 +59,11 @@ func (u User) validateAddress() error { return nil }
 
 func (u *User) setPassword(password string) error { return nil }
 
+// SignIn requires both email and password to be passed in and to be checked that they are correct
+// before the system would allow access. At the same time, the user model would have its
+// lastloginat field updated to the latest timing
+func (u *User) SignIn(email, password string) error { return nil }
+
 // Validate checks all entries are correct before passing itself to a service to be saved
 func (u User) Validate() error { return nil }
 

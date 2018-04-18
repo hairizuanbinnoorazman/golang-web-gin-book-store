@@ -32,7 +32,7 @@ func setupRouter(rs RouteServices) *gin.Engine {
 	router.Use(corsHandler)
 
 	// Auth routes
-	router.PUT("/signin")
+	router.PUT("/signin", handlers.UserSignIn(rs.User))
 	router.GET("/activate", handlers.UserActivate(rs.User))
 	router.GET("/reactivate")
 	router.GET("/forgetpassword", handlers.UserForgetPassword(rs.User))
