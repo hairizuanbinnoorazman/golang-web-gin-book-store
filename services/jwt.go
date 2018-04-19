@@ -8,9 +8,13 @@ import (
 	"github.com/spf13/viper"
 )
 
+// ErrJWTSigning is an error thrown during the JWT Signing process
 var ErrJWTSigning = errors.New("Error while signing the JWT Token")
-var ErrJWTValidate = errors.New("Error while validating JWT Token")
 
+// ErrJWTExtract is an error thrown
+var ErrJWTExtract = errors.New("Error while extracting values from JWT Token")
+
+// JWTCustomClaims contains the list of values that is to be contained within the JWT Token
 type JWTCustomClaims struct {
 	ID string `json:"id"`
 	jwt.StandardClaims
@@ -39,10 +43,10 @@ func NewToken(id string) (string, error) {
 	return tokenString, nil
 }
 
-// ValidateToken takes a JWT Token that is used by the application and validates it
-// with the application secret. If validation process goes well, it would be able to
-// return the values intended
-func ValidateToken(tokenString string) (*JWTCustomClaims, error) {
+// ExtractToken takes a JWT Token that is used by the application and extracts the values out
+// with the application secret. If process goes well, it would be able to
+// return the values
+func ExtractToken(tokenString string) (string, error) {
 	// Retrive secret for retriving values
 	secret := viper.GetString("jwt_secret")
 
@@ -51,15 +55,13 @@ func ValidateToken(tokenString string) (*JWTCustomClaims, error) {
 			return []byte(secret), nil
 		})
 	if err != nil {
-		return &JWTCustomClaims{}, err
+		return "", err
 	}
 
 	claims, ok := token.Claims.(*JWTCustomClaims)
 	if ok && token.Valid {
-		return &JWTCustomClaims{
-			ID: claims.ID,
-		}, nil
+		return claims.ID, nil
 	}
 
-	return &JWTCustomClaims{}, ErrJWTValidate
+	return "", ErrJWTExtract
 }
