@@ -7,6 +7,37 @@ import (
 	"github.com/hairizuanbinnoorazman/golang-web-gin-book-store/models"
 )
 
+func TestNewUser(t *testing.T) {
+	type testCase struct {
+		TestName      string
+		FirstName     string
+		LastName      string
+		Password      string
+		Email         string
+		Address       string
+		ExpectedError error
+	}
+
+	cases := []testCase{}
+
+	for _, singleCase := range cases {
+		u := models.User{FirstName: singleCase.FirstName,
+			LastName: singleCase.LastName,
+			Password: singleCase.Password,
+			Email:    singleCase.Email,
+			Address:  singleCase.Address,
+		}
+		err := u.Validate()
+		if err == nil && err != singleCase.ExpectedError {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), "nil")
+		} else if singleCase.ExpectedError == nil && err != singleCase.ExpectedError {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "nil", err.Error())
+		} else if err != singleCase.ExpectedError {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), err.Error())
+		}
+	}
+}
+
 func TestUserValidate(t *testing.T) {
 	type testCase struct {
 		TestName      string
