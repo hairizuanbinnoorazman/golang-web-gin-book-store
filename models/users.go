@@ -55,7 +55,15 @@ func NewUser(firstName, lastName, email, password string) (*User, error) {
 	return &User{FirstName: firstName, LastName: lastName, Email: email, Password: password}, nil
 }
 
-func (u User) validateName() error { return nil }
+func (u User) validateName() error {
+	if len(u.FirstName) < 4 || len(u.LastName) < 4 {
+		return ErrNameShort
+	}
+	if len(u.FirstName) > 120 || len(u.LastName) > 120 {
+		return ErrNameLong
+	}
+	return nil
+}
 
 func (u User) validateEmail() error { return nil }
 
