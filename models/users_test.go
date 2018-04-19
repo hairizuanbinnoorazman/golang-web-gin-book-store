@@ -118,17 +118,25 @@ func TestChangePassword(t *testing.T) {
 
 func TestReactivateToken(t *testing.T) {
 	type testCase struct {
-		TestName      string
-		User          models.User
-		ExpectedError error
+		TestName string
+		User     models.User
 	}
 
-	cases := []testCase{}
+	cases := []testCase{
+		{TestName: "Common Scenario", User: models.User{}},
+	}
 
 	for _, singleCase := range cases {
+		initialToken := singleCase.User.ActivationToken
 		token, _ := singleCase.User.ReactivateToken()
 		if token == "" {
 			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "UUID Value Expected", token)
+		}
+		if singleCase.User.ActivationToken == "" {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "UUID Value Expected", token)
+		}
+		if initialToken == token {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "Different Values Expected", token)
 		}
 	}
 }
@@ -142,7 +150,10 @@ func TestActivate(t *testing.T) {
 		ExpectedError   error
 	}
 
-	cases := []testCase{}
+	cases := []testCase{
+		{TestName: "Normal Scenario", User: models.User{ActivationToken: "abc"}, ActivationToken: "abc", ExpectedOutput: true, ExpectedError: nil},
+		{TestName: "Wrong Token", User: models.User{ActivationToken: "abc123"}, ActivationToken: "abc", ExpectedOutput: false, ExpectedError: models.ErrActivationTokenInvalid},
+	}
 
 	for _, singleCase := range cases {
 		status, err := singleCase.User.Activate(singleCase.ActivationToken)
