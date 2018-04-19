@@ -49,8 +49,10 @@ type AdminUser struct {
 
 // NewUser returns a new user instance. During instantiation, several fields will need to be
 // instantiated; e.g. ID, Activated, CreatedAt, UpdatedAt, etc
-func NewUser(firstName, lastName, email, password string) *User {
-	return &User{FirstName: firstName, LastName: lastName, Email: email, Password: password}
+// NewUser function would be able to return its own set of errors as it would run a validate function before
+// returning a reference of the user back
+func NewUser(firstName, lastName, email, password string) (*User, error) {
+	return &User{FirstName: firstName, LastName: lastName, Email: email, Password: password}, nil
 }
 
 func (u User) validateName() error { return nil }
