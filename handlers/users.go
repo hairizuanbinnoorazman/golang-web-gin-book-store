@@ -16,6 +16,11 @@ type UserService interface {
 	Update(*models.User) (models.User, error)
 }
 
+type JWTService interface {
+	NewToken(id string) (string, error)
+	ValidateToken(tokenString string) (string, error)
+}
+
 // UserSignIn is a handler function meant to handle user signin
 func UserSignIn(service UserService) func(c *gin.Context) {
 	return func(c *gin.Context) {
