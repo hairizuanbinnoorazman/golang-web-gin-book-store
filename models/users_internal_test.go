@@ -44,7 +44,7 @@ func TestSetUserPassword(t *testing.T) {
 	cases := []testCase{
 		{TestName: "Empty Password", Password: "", ExpectedError: ErrPasswordShort},
 		{TestName: "Short Password", Password: "a", ExpectedError: ErrPasswordShort},
-		{TestName: "Long Password", Password: "ajsnjfnsdjknvjkdndjknjkdnjkdsnjkdsnjkfndkjfdkjsnjkfdsnjkfdsnknfsdjknfdjknjkafdsnkjdnfknfdksjnkjfnskjdnnsdkvj", ExpectedError: ErrPasswordShort},
+		{TestName: "Long Password", Password: "ajsnjfnsdjknvjkdndjknjkdnjkdsnjkdsnjkfndkjfdkjsnjkfdsnjkfdsnknfsdjknfdjknjkafdsnkjdnfknfdanjkfka211io312njk3nkj12njndjknkjdckmkalmklasksjnkjfnskjdnnsdkvj", ExpectedError: ErrPasswordLong},
 		{TestName: "Invalid Password Pattern", Password: "aaaaaaaa", ExpectedError: ErrPasswordInvalid},
 		{TestName: "Invalid Password Pattern with a number", Password: "aa1aaaaa", ExpectedError: ErrPasswordInvalid},
 		{TestName: "Normal Scenario", Password: "Aaaaaaa1", ExpectedError: nil},
