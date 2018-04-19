@@ -13,6 +13,8 @@ var ErrPasswordShort = errors.New("Password cannot be shorter than 8 characters"
 var ErrPasswordLong = errors.New("Password cannot be longer than 120 characters")
 var ErrPasswordInvalid = errors.New("Password requires at least 1 capital letter, 1 small letter and a number")
 var ErrEmailInvalid = errors.New("Email is invalid")
+var ErrActivationTokenInvalid = errors.New("Activation Token is invalid")
+var ErrForgetPasswordTokenInvalid = errors.New("Forget Password Token is invalid")
 
 // User struct defines the user entity in the application
 // Fields need to be set as public in order for other packages to access them
