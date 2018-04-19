@@ -2,6 +2,7 @@ package models
 
 import (
 	"errors"
+	"regexp"
 	"time"
 )
 
@@ -67,9 +68,31 @@ func (u User) validateName() error {
 
 func (u User) validateEmail() error { return nil }
 
-func (u User) validateAddress() error { return nil }
+func (u User) validateAddress() error {
+	if len(u.Address) > 120 {
+		return ErrAddressLong
+	}
+	return nil
+}
 
-func (u *User) setPassword(password string) error { return nil }
+func (u *User) setPassword(password string) error {
+	if len(password) < 8 {
+		return ErrPasswordShort
+	}
+	if len(password) > 120 {
+		return ErrPasswordLong
+	}
+	reSmallLetters := regexp.MustCompile("[a-z]")
+	reCapital := regexp.MustCompile("[A-Z]")
+	reNumbers := regexp.MustCompile("[0-9]")
+	smallLettersFind := reSmallLetters.FindAllString(password, -1)
+	capitalFind := reCapital.FindAllString(password, -1)
+	numberFind := reNumbers.FindAllString(password, -1)
+	if len(smallLettersFind) > 0 && len(capitalFind) > 0 && len(numberFind) > 0 {
+		return nil
+	}
+	return ErrPasswordInvalid
+}
 
 // SignIn requires both email and password to be passed in and to be checked that they are correct
 // before the system would allow access. At the same time, the user model would have its
