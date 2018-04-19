@@ -8,7 +8,7 @@ import (
 // ErrNameShort is an error that is to be raised if First Name or Last Name provided is too short
 var ErrNameShort = errors.New("Name cannot be shorter than 4 characters")
 var ErrNameLong = errors.New("Name cannot be longer than 120 characters")
-var ErrAddressShort = errors.New("Address cannot be longer than 120 characters")
+var ErrAddressLong = errors.New("Address cannot be longer than 120 characters")
 var ErrPasswordShort = errors.New("Password cannot be shorter than 8 characters")
 var ErrPasswordLong = errors.New("Password cannot be longer than 120 characters")
 var ErrPasswordInvalid = errors.New("Password requires at least 1 capital letter, 1 small letter and a number")

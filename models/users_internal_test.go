@@ -71,7 +71,7 @@ func TestValidateUserAddress(t *testing.T) {
 	}
 	cases := []testCase{
 		{TestName: "Empty Address", Address: "", ExpectedError: nil},
-		{TestName: "Long Address", Address: "ajsnjfnsdjknvjkdndjknjkdnjkdsnjkdsnjkfndkjfdkjsnjkfdsnjkfdsnknfsdjknfdjknjkafdsnkjdnfknfdksjnkjfnskjdnnsdkvj", ExpectedError: nil},
+		{TestName: "Long Address", Address: "ajsnjfnsdjknvjkdndjknjkdnjkdsnjkdsnjkfndkjfdkjsnjkfdsnjkfdsnknfsdjknfdjknjkafdsnkjdnfknfdksjnkjfnskjdnnsdkvj", ExpectedError: ErrAddressLong},
 		{TestName: "Empty Address", Address: "jkanskdkncajknjkcna cacsc cacaca cs", ExpectedError: nil},
 	}
 
