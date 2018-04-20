@@ -22,7 +22,7 @@ type JWTService interface {
 }
 
 // UserSignIn is a handler function meant to handle user signin
-func UserSignIn(service UserService) func(c *gin.Context) {
+func UserSignIn(service UserService, jwt JWTService) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		// Obtain the request details
 		type UserSignIn struct {
@@ -43,7 +43,14 @@ func UserSignIn(service UserService) func(c *gin.Context) {
 		if errUpdate != nil {
 			c.JSON(http.StatusBadRequest, "")
 		}
-		c.JSON(http.StatusOK, userUpdated)
+		token, errToken := jwt.NewToken(userUpdated.ID)
+		if errToken != nil {
+			c.JSON(http.StatusBadRequest, "")
+		}
+		type response struct {
+			Token string `json:"string"`
+		}
+		c.JSON(http.StatusOK, response{Token: token})
 	}
 }
 
