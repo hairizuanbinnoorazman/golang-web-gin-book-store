@@ -4,6 +4,8 @@ import (
 	"errors"
 	"regexp"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 // ErrNameShort is an error that is to be raised if First Name or Last Name provided is too short
@@ -127,7 +129,11 @@ func (u User) Validate() error {
 
 // ForgetPassword resets the forget password token to a random UUID as well as resets the
 // forget password expiry token. The function will return the forgetPasswordToken
-func (u *User) ForgetPassword() (string, error) { return "", nil }
+func (u *User) ForgetPassword() (string, error) {
+	u.ForgetPasswordToken = uuid.New().String()
+	u.ForgetPasswordExpiryDate = time.Now()
+	return u.ForgetPasswordToken, nil
+}
 
 // ChangePasswordFromForget requires you to provide the forget password token. This function
 // will then check the forgetPasswordToken if its correct and alters it accordingly
