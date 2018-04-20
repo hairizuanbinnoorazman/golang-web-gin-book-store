@@ -66,7 +66,14 @@ func (u User) validateName() error {
 	return nil
 }
 
-func (u User) validateEmail() error { return nil }
+func (u User) validateEmail() error {
+	reEmail := regexp.MustCompile(`\w+@\w{2,3}.\w{2,3}`)
+	isValid := reEmail.MatchString(u.Email)
+	if isValid {
+		return nil
+	}
+	return ErrEmailInvalid
+}
 
 func (u User) validateAddress() error {
 	if len(u.Address) > 120 {
