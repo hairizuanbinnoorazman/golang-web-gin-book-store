@@ -172,11 +172,21 @@ func (u *User) ChangePassword(password string) error {
 
 // ReactivateToken resets the activation token in the case the user did not activate the account
 // in time. Returns an activationToken
-func (u *User) ReactivateToken() (string, error) { return "", nil }
+func (u *User) ReactivateToken() (string, error) {
+	newToken := uuid.New().String()
+	u.ActivationToken = newToken
+	return newToken, nil
+}
 
 // Activate user. You would need to provide a activation token to check if it correct.
 // If correct, it would return the status of the user which should be true or false
-func (u *User) Activate(activationToken string) (bool, error) { return false, nil }
+func (u *User) Activate(activationToken string) (bool, error) {
+	if u.ActivationToken == activationToken {
+		u.Activated = true
+		return true, nil
+	}
+	return false, ErrActivationTokenInvalid
+}
 
 func (a AdminUser) validateStatus() error { return nil }
 
