@@ -71,12 +71,12 @@ func TestValidateUserAddress(t *testing.T) {
 	}
 	cases := []testCase{
 		{TestName: "Empty Address", Address: "", ExpectedError: nil},
-		{TestName: "Long Address", Address: "ajsnjfnsdjknvjkdndjknjkdnjkdsnjkdsnjkfndkjfdkjsnjkfdsnjkfdsnknfsdjknfdjknjkafdsnkjdnfknfdksjnkjfnskjdnnsdkvj", ExpectedError: ErrAddressLong},
+		{TestName: "Long Address", Address: "ajsnjfnsdjknvjkdndjknjkdnjkdsnjkdsnjkfndkjfdkjsnjkfdsnjkfdsnknfsdjknfdjknjkafdsnkjdnfknfdksjnkjfnskjdnnsdkvssssssssssssssssssssssssssssj", ExpectedError: ErrAddressLong},
 		{TestName: "Empty Address", Address: "jkanskdkncajknjkcna cacsc cacaca cs", ExpectedError: nil},
 	}
 
 	for _, singleCase := range cases {
-		tempUser := User{Password: singleCase.Address}
+		tempUser := User{Address: singleCase.Address}
 		err := tempUser.validateAddress()
 		if err == nil && err != singleCase.ExpectedError {
 			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), "nil")
@@ -98,7 +98,7 @@ func TestValidateUserEmail(t *testing.T) {
 		{TestName: "Empty Email", Email: "", ExpectedError: ErrEmailInvalid},
 		{TestName: "Invalid Pattern Email 1", Email: "aa@aa", ExpectedError: ErrEmailInvalid},
 		{TestName: "Invalid Pattern Email 2", Email: "@aa.ca", ExpectedError: ErrEmailInvalid},
-		{TestName: "Normal Scenario", Email: "aaaa@aa.ca", ExpectedError: ErrEmailInvalid},
+		{TestName: "Normal Scenario", Email: "aaaa@aa.ca", ExpectedError: nil},
 	}
 
 	for _, singleCase := range cases {
