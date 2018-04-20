@@ -98,11 +98,11 @@ func TestValidateUserEmail(t *testing.T) {
 		{TestName: "Empty Email", Email: "", ExpectedError: ErrEmailInvalid},
 		{TestName: "Invalid Pattern Email 1", Email: "aa@aa", ExpectedError: ErrEmailInvalid},
 		{TestName: "Invalid Pattern Email 2", Email: "@aa.ca", ExpectedError: ErrEmailInvalid},
-		{TestName: "Normal Scenario", Email: "aaaa@aa.ca", ExpectedError: nil},
+		{TestName: "Normal Scenario", Email: "aaasfsdfa@co.uk", ExpectedError: nil},
 	}
 
 	for _, singleCase := range cases {
-		tempUser := User{Password: singleCase.Email}
+		tempUser := User{Email: singleCase.Email}
 		err := tempUser.validateEmail()
 		if err == nil && err != singleCase.ExpectedError {
 			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), "nil")
