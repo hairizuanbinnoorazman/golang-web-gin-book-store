@@ -103,13 +103,14 @@ func TestChangePasswordFromForget(t *testing.T) {
 	}
 
 	cases := []testCase{
-		{TestName: "Normal Scenario", User: models.User{}, NewPassword: "aaaaaaaa", ExpectedError: nil},
+		{TestName: "Normal Scenario", User: models.User{}, NewPassword: "aa1Aaaaaa", ExpectedError: nil},
 		{TestName: "Short Password", User: models.User{}, NewPassword: "aaaaaa", ExpectedError: models.ErrPasswordShort},
-		{TestName: "Same Password", User: models.User{Password: "aaaaaaaa"}, NewPassword: "aaaaaaaa", ExpectedError: nil},
+		{TestName: "Same Password", User: models.User{Password: "aaa1Aaaaa"}, NewPassword: "aaa1Aaaaa", ExpectedError: nil},
 	}
 
 	for _, singleCase := range cases {
 		token, _ := singleCase.User.ForgetPassword()
+		singleCase.User.ForgetPasswordToken = token
 		err := singleCase.User.ChangePasswordFromForget(token, singleCase.NewPassword)
 		if err == nil && err != singleCase.ExpectedError {
 			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), "nil")
@@ -124,18 +125,19 @@ func TestChangePasswordFromForget(t *testing.T) {
 func TestChangePassword(t *testing.T) {
 	type testCase struct {
 		TestName      string
-		User          models.User
+		OldPassword   string
 		NewPassword   string
 		ExpectedError error
 	}
 
 	cases := []testCase{
-		{TestName: "Normal Scenario", User: models.User{Password: "aaaaaaaa"}, NewPassword: "bbbbbbbb", ExpectedError: nil},
-		{TestName: "Same Password", User: models.User{Password: "12345678"}, NewPassword: "12345678", ExpectedError: models.ErrPasswordInvalid},
+		{TestName: "Normal Scenario", OldPassword: "aaaaaaaa", NewPassword: "bbb1Bbbbb", ExpectedError: nil},
+		{TestName: "Same Password", OldPassword: "1aA2345678", NewPassword: "1aA2345678", ExpectedError: models.ErrSamePassword},
 	}
 
 	for _, singleCase := range cases {
-		err := singleCase.User.ChangePassword(singleCase.NewPassword)
+		user, _ := models.NewUser("aaaa", "aaaa", "aaaa@aa.aa", singleCase.OldPassword)
+		err := user.ChangePassword(singleCase.NewPassword)
 		if err == nil && err != singleCase.ExpectedError {
 			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), "nil")
 		} else if singleCase.ExpectedError == nil && err != singleCase.ExpectedError {
