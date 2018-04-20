@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 )
 
 // ErrNameShort is an error that is to be raised if First Name or Last Name provided is too short
@@ -15,6 +16,7 @@ var ErrAddressLong = errors.New("Address cannot be longer than 120 characters")
 var ErrPasswordShort = errors.New("Password cannot be shorter than 8 characters")
 var ErrPasswordLong = errors.New("Password cannot be longer than 120 characters")
 var ErrPasswordInvalid = errors.New("Password requires at least 1 capital letter, 1 small letter and a number")
+var ErrSamePassword = errors.New("Current password already in use. Please pick another password")
 var ErrEmailInvalid = errors.New("Email is invalid")
 var ErrActivationTokenInvalid = errors.New("Activation Token is invalid")
 var ErrForgetPasswordTokenInvalid = errors.New("Forget Password Token is invalid")
@@ -55,7 +57,9 @@ type AdminUser struct {
 // NewUser function would be able to return its own set of errors as it would run a validate function before
 // returning a reference of the user back
 func NewUser(firstName, lastName, email, password string) (*User, error) {
-	return &User{FirstName: firstName, LastName: lastName, Email: email, Password: password}, nil
+	user := User{FirstName: firstName, LastName: lastName, Email: email}
+	user.setPassword(password)
+	return &user, nil
 }
 
 func (u User) validateName() error {
@@ -98,6 +102,11 @@ func (u *User) setPassword(password string) error {
 	capitalFind := reCapital.FindAllString(password, -1)
 	numberFind := reNumbers.FindAllString(password, -1)
 	if len(smallLettersFind) > 0 && len(capitalFind) > 0 && len(numberFind) > 0 {
+		hashedPassword, errEncrpt := bcrypt.GenerateFromPassword([]byte(password), 10)
+		if errEncrpt != nil {
+			return ErrPasswordInvalid
+		}
+		u.Password = string(hashedPassword)
 		return nil
 	}
 	return ErrPasswordInvalid
@@ -137,10 +146,29 @@ func (u *User) ForgetPassword() (string, error) {
 
 // ChangePasswordFromForget requires you to provide the forget password token. This function
 // will then check the forgetPasswordToken if its correct and alters it accordingly
-func (u *User) ChangePasswordFromForget(forgetPasswordToken, password string) error { return nil }
+func (u *User) ChangePasswordFromForget(forgetPasswordToken, password string) error {
+	if u.ForgetPasswordToken == forgetPasswordToken {
+		err := u.setPassword(password)
+		if err != nil {
+			return err
+		}
+		return nil
+	}
+	return ErrForgetPasswordTokenInvalid
+}
 
 // ChangePassword changes the password on the user object before saving it
-func (u *User) ChangePassword(password string) error { return nil }
+func (u *User) ChangePassword(password string) error {
+	errCompare := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
+	if errCompare == nil {
+		return ErrSamePassword
+	}
+	err := u.setPassword(password)
+	if err != nil {
+		return err
+	}
+	return nil
+}
 
 // ReactivateToken resets the activation token in the case the user did not activate the account
 // in time. Returns an activationToken
