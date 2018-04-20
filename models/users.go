@@ -107,7 +107,23 @@ func (u *User) setPassword(password string) error {
 func (u *User) SignIn(email, password string) error { return nil }
 
 // Validate checks all entries are correct before passing itself to a service to be saved
-func (u User) Validate() error { return nil }
+func (u User) Validate() error {
+	err := u.validateName()
+	if err != nil {
+		return err
+	}
+
+	err = u.validateEmail()
+	if err != nil {
+		return err
+	}
+
+	err = u.validateAddress()
+	if err != nil {
+		return err
+	}
+	return nil
+}
 
 // ForgetPassword resets the forget password token to a random UUID as well as resets the
 // forget password expiry token. The function will return the forgetPasswordToken
