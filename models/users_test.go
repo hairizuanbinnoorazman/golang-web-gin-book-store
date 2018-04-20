@@ -53,9 +53,8 @@ func TestUserValidate(t *testing.T) {
 		{TestName: "Zero", ExpectedError: models.ErrNameShort},
 		{TestName: "Missing Last Name", FirstName: "Lol", ExpectedError: models.ErrNameShort},
 		{TestName: "Missing First Name", LastName: "Miao", ExpectedError: models.ErrNameShort},
-		{TestName: "Email and password missing", FirstName: "Lol", LastName: "Miao", ExpectedError: models.ErrEmailInvalid},
-		{TestName: "Email missing", FirstName: "Lol", LastName: "Miao", Password: "acac", ExpectedError: models.ErrEmailInvalid},
-		{TestName: "All Filled Up - Password Short", FirstName: "Lol", LastName: "Miao", Password: "acac", Email: "aaa@aaa.aa", ExpectedError: models.ErrPasswordShort},
+		{TestName: "Email and password missing", FirstName: "Laaol", LastName: "Miao", ExpectedError: models.ErrEmailInvalid},
+		{TestName: "Email missing", FirstName: "Lolaa", LastName: "Miaaao", Password: "acac", ExpectedError: models.ErrEmailInvalid},
 		{TestName: "All Filled Up accordingly", FirstName: "Loal", LastName: "Miao", Password: "acaaaaac", Email: "aaa@aaa.aa", ExpectedError: nil},
 	}
 
