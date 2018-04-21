@@ -55,6 +55,36 @@ func TestNewUser(t *testing.T) {
 	}
 }
 
+func TestSignIn(t *testing.T) {
+	type testCase struct {
+		TestName      string
+		LoginEmail    string
+		LoginPassword string
+		ExpectedError error
+	}
+
+	// Set a account that is validated correctly
+	u, _ := models.NewUser("aaaa", "aaavv", "aaaaa@sac.ca", "acaockoasc1mcaA")
+
+	cases := []testCase{
+		{TestName: "Empty Value", ExpectedError: models.ErrLogin},
+		{TestName: "Empty Password", LoginEmail: "aacac@caca.ac", ExpectedError: models.ErrLogin},
+		{TestName: "Wrong Password", LoginEmail: "aaaaa@sac.ca", LoginPassword: "acaockoasc2mcaA", ExpectedError: models.ErrLogin},
+		{TestName: "Normal Scenario", LoginEmail: "aaaaa@sac.ca", LoginPassword: "acaockoasc1mcaA", ExpectedError: nil},
+	}
+
+	for _, singleCase := range cases {
+		err := u.SignIn(singleCase.LoginEmail, singleCase.LoginPassword)
+		if err == nil && err != singleCase.ExpectedError {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), "nil")
+		} else if singleCase.ExpectedError == nil && err != singleCase.ExpectedError {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "nil", err.Error())
+		} else if err != singleCase.ExpectedError {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), err.Error())
+		}
+	}
+}
+
 func TestUserValidate(t *testing.T) {
 	type testCase struct {
 		TestName      string
