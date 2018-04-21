@@ -58,7 +58,12 @@ type AdminUser struct {
 // returning a reference of the user back
 func NewUser(firstName, lastName, email, password string) (*User, error) {
 	user := User{FirstName: firstName, LastName: lastName, Email: email}
-	user.setPassword(password)
+	err := user.setPassword(password)
+	user.ID = uuid.New().String()
+	user.ActivationToken = uuid.New().String()
+	if err != nil {
+		return nil, err
+	}
 	return &user, nil
 }
 
