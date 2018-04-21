@@ -20,6 +20,7 @@ var ErrSamePassword = errors.New("Current password already in use. Please pick a
 var ErrEmailInvalid = errors.New("Email is invalid")
 var ErrActivationTokenInvalid = errors.New("Activation Token is invalid")
 var ErrForgetPasswordTokenInvalid = errors.New("Forget Password Token is invalid")
+var ErrLogin = errors.New("Email or password provided does not match")
 
 // User struct defines the user entity in the application
 // Fields need to be set as public in order for other packages to access them
@@ -120,7 +121,16 @@ func (u *User) setPassword(password string) error {
 // SignIn requires both email and password to be passed in and to be checked that they are correct
 // before the system would allow access. At the same time, the user model would have its
 // lastloginat field updated to the latest timing
-func (u *User) SignIn(email, password string) error { return nil }
+func (u User) SignIn(email, password string) error {
+	if u.Email != email {
+		return ErrLogin
+	}
+	err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
+	if err != nil {
+		return ErrLogin
+	}
+	return nil
+}
 
 // Validate checks all entries are correct before passing itself to a service to be saved
 func (u User) Validate() error {
