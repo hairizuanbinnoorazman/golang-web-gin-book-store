@@ -52,6 +52,13 @@ func TestNewUser(t *testing.T) {
 			if u.Password == singleCase.Password {
 				t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "Password values needs to be encrypted", u.Password)
 			}
+			emptyTime := time.Time{}
+			if u.LastLoginAt == emptyTime {
+				t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "Time needs to be initialized", u.LastLoginAt)
+			}
+			if u.CreatedAt == emptyTime {
+				t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "Time needs to be initialized", u.CreatedAt)
+			}
 		}
 	}
 }
