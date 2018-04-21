@@ -62,6 +62,8 @@ func NewUser(firstName, lastName, email, password string) (*User, error) {
 	err := user.setPassword(password)
 	user.ID = uuid.New().String()
 	user.ActivationToken = uuid.New().String()
+	user.CreatedAt = time.Now()
+	user.LastLoginAt = time.Date(1900, time.January, 1, 0, 0, 0, 0, time.UTC)
 	if err != nil {
 		return nil, err
 	}
