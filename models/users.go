@@ -121,7 +121,7 @@ func (u *User) setPassword(password string) error {
 // SignIn requires both email and password to be passed in and to be checked that they are correct
 // before the system would allow access. At the same time, the user model would have its
 // lastloginat field updated to the latest timing
-func (u User) SignIn(email, password string) error {
+func (u *User) SignIn(email, password string) error {
 	if u.Email != email {
 		return ErrLogin
 	}
@@ -129,6 +129,7 @@ func (u User) SignIn(email, password string) error {
 	if err != nil {
 		return ErrLogin
 	}
+	u.LastLoginAt = time.Now()
 	return nil
 }
 
