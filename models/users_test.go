@@ -3,6 +3,7 @@ package models_test
 import (
 	"strconv"
 	"testing"
+	"time"
 
 	"github.com/hairizuanbinnoorazman/golang-web-gin-book-store/models"
 )
@@ -65,6 +66,8 @@ func TestSignIn(t *testing.T) {
 
 	// Set a account that is validated correctly
 	u, _ := models.NewUser("aaaa", "aaavv", "aaaaa@sac.ca", "acaockoasc1mcaA")
+	u.SignIn("aaaaa@sac.ca", "acaockoasc1mcaA")
+	initialLoginTime := u.LastLoginAt.Add(-5 * time.Second)
 
 	cases := []testCase{
 		{TestName: "Empty Value", ExpectedError: models.ErrLogin},
@@ -81,6 +84,12 @@ func TestSignIn(t *testing.T) {
 			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "nil", err.Error())
 		} else if err != singleCase.ExpectedError {
 			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), err.Error())
+		}
+		// Check to make sure that last login time is updated
+		if err == singleCase.ExpectedError {
+			if !u.LastLoginAt.After(initialLoginTime) {
+				t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, initialLoginTime, u.LastLoginAt)
+			}
 		}
 	}
 }
