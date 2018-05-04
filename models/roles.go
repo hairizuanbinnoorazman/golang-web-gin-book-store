@@ -2,7 +2,6 @@ package models
 
 import (
 	"errors"
-	"time"
 )
 
 var ErrInvalidRoleName = errors.New("Invalid Role Name")
@@ -16,8 +15,8 @@ type Role struct {
 	Description string
 	Status      string
 	Remarks     string
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
+	// CreatedAt   time.Time
+	// UpdatedAt   time.Time
 }
 
 // There are only very few specific roles that are accepted.
