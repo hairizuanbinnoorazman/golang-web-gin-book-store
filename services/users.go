@@ -1,8 +1,6 @@
 package services
 
 import (
-	"time"
-
 	"github.com/hairizuanbinnoorazman/golang-web-gin-book-store/models"
 )
 
@@ -11,27 +9,37 @@ type User struct {
 }
 
 func (u User) GetByID(ID string) (models.User, error) {
-	var user models.User
-	// u.DB.Where("name = ?", "jinzhu").Find(&user)
-	user.FirstName = "LOL"
-	user.LastName = "MIAO"
-	return user, nil
+	tempUser := models.User{ID: ID}
+	result := u.Storage.DB.First(&tempUser)
+	if result.Error != nil {
+		return models.User{}, result.Error
+	}
+	return tempUser, nil
 }
 
 func (u User) Create(a *models.User) (models.User, error) {
-	// u.DB.Create(a)
-	lol := models.User{FirstName: "kcmkamcklamlc", LastLoginAt: time.Now()}
-	return lol, nil
+	result := u.Storage.DB.Create(a)
+	if result.Error != nil {
+		return models.User{}, result.Error
+	}
+	return *a, nil
 }
 
 func (u User) Update(a *models.User) (models.User, error) {
-	lol := models.User{FirstName: "kcmkamcklamlc", LastLoginAt: time.Now()}
-	return lol, nil
+	result := u.Storage.DB.Update(a)
+	if result.Error != nil {
+		return models.User{}, result.Error
+	}
+	return *a, nil
 }
 
 func (u User) GetByEmail(a string) (models.User, error) {
-	lol := models.User{FirstName: "kcmkamcklamlc", LastLoginAt: time.Now()}
-	return lol, nil
+	tempUser := models.User{}
+	result := u.Storage.DB.Where("email = ?", a).First(&tempUser)
+	if result.Error != nil {
+		return models.User{}, result.Error
+	}
+	return tempUser, nil
 }
 
 type User2 struct {
