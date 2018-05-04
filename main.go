@@ -32,7 +32,7 @@ func setupRouter(rs RouteServices) *gin.Engine {
 	router.Use(corsHandler)
 
 	// Auth routes
-	router.PUT("/signin", handlers.UserSignIn(rs.User))
+	// router.PUT("/signin", handlers.UserSignIn(rs.User))
 	router.GET("/activate", handlers.UserActivate(rs.User))
 	router.GET("/reactivate")
 	router.GET("/forgetpassword", handlers.UserForgetPassword(rs.User))
@@ -47,7 +47,11 @@ func setupRouter(rs RouteServices) *gin.Engine {
 }
 
 func main() {
-	rs := RouteServices{User: services.User{}}
+	var db services.Storage
+	db.NewDB()
+	userService := services.User{}
+	userService.DB = db.DB
+	rs := RouteServices{User: userService}
 	router := setupRouter(rs)
 	router.Run(":8000")
 }
