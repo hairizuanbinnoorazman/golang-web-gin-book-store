@@ -49,6 +49,7 @@ func setupRouter(rs RouteServices) *gin.Engine {
 func main() {
 	var db services.Storage
 	db.NewDB()
+	db.AutoMigrate()
 	userService := services.User{}
 	userService.DB = db.DB
 	rs := RouteServices{User: userService}
