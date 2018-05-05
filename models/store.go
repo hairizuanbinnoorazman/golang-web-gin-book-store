@@ -6,15 +6,16 @@ import (
 
 // Store struct - there should only be 1 company director/admin
 type Store struct {
-	ID            string
-	Name          string
-	CompanyLeadID string // AdminUserID
-	Address       string
-	Country       string
-	Status        string
-	Remarks       string
-	CreatedAt     time.Time
-	UpdatedAt     time.Time
+	ID          string
+	Name        string
+	AdminUser   AdminUser
+	AdminUserID string
+	Address     string
+	Country     string
+	Status      string
+	Remarks     string
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
 }
 
 func (s Store) validateName() error { return nil }
