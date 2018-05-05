@@ -41,21 +41,9 @@ type User struct {
 	UpdatedAt                time.Time `json:"-"`
 }
 
-// AdminUser struct defines an admin user entity in the application
-// Status in the field refers to whether the user is hired/attached etc
-// StartDate is the date when the user joined the company
-// EndDate is the date when the user left the company
-type AdminUser struct {
-	User
-	RoleID    string
-	Status    string
-	StartDate time.Time
-	EndDate   time.Time
-}
-
 // NewUser returns a new user instance. During instantiation, several fields will need to be
 // instantiated; e.g. ID, Activated, CreatedAt, UpdatedAt, etc
-// NewUser function would be able to return its own set of errors as it would run a validate function before
+// The function would be able to return its own set of errors as it would run a validate function before
 // returning a reference of the user back
 func NewUser(firstName, lastName, email, password string) (*User, error) {
 	user := User{FirstName: firstName, LastName: lastName, Email: email}
