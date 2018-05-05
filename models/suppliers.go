@@ -16,6 +16,7 @@ type Supplier struct {
 	UpdatedAt          time.Time
 }
 
+// SupplierContact struct describes a single supplier contact information
 type SupplierContact struct {
 	ID              string
 	Name            string
