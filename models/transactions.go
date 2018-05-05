@@ -14,6 +14,8 @@ type Transaction struct {
 // Validate function checks to ensure the Transaction struct is valid
 func (t Transaction) Validate() error { return nil }
 
+// TransactionItem is a a representation of movement of goods on the product
+// They can represent various types of items - e.g. Actual items, Promotional codes, Discounts etc
 type TransactionItem struct {
 	ID            string
 	TransactionID string
