@@ -26,6 +26,7 @@ func (s *Storage) NewDB() {
 
 func (s *Storage) AutoMigrate() {
 	s.DB.AutoMigrate(&models.User{})
+	s.DB.AutoMigrate(&models.Role{})
 	s.DB.AutoMigrate(&models.Transaction{})
 	s.DB.AutoMigrate(&models.Receipt{})
 	s.DB.AutoMigrate(&models.Store{})
