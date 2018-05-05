@@ -9,7 +9,9 @@ type Item struct {
 	ID            string
 	Name          string
 	Description   string
+	Category      Category
 	CategoryID    string
+	SubCategory   SubCategory
 	SubCategoryID string
 	CreatedAt     time.Time
 	UpdatedAt     time.Time
@@ -27,6 +29,7 @@ type Category struct {
 // SubCategory describes a product subcategory metadata in the store
 type SubCategory struct {
 	ID          string
+	Category    Category
 	CategoryID  string
 	Name        string
 	Description string
