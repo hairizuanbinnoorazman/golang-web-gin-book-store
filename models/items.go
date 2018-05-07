@@ -42,6 +42,14 @@ type Category struct {
 	UpdatedAt   time.Time
 }
 
+func (c Category) validateCategoryName() error {
+	return nil
+}
+
+func (c Category) Validate() error {
+	return nil
+}
+
 // SubCategory describes a product subcategory metadata in the store
 type SubCategory struct {
 	ID          string
