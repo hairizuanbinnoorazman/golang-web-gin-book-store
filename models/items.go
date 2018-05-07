@@ -17,6 +17,22 @@ type Item struct {
 	UpdatedAt     time.Time
 }
 
+func (i Item) validateItemName() error {
+	return nil
+}
+
+func (i Item) validateCategory() error {
+	return nil
+}
+
+func (i Item) validateSubCategory() error {
+	return nil
+}
+
+func (i Item) Validate() error {
+	return nil
+}
+
 // Category describes a product category metadata in the store
 type Category struct {
 	ID          string
