@@ -18,15 +18,15 @@ type Store struct {
 	UpdatedAt   time.Time
 }
 
-func (s Store) validateName() error { return nil }
+func (s Store) validateStoreName() error { return nil }
 
-func (s Store) validateCompanyLead() error { return nil }
+func (s Store) validateStoreAdminUser() error { return nil }
 
-func (s Store) validateAddress() error { return nil }
+func (s Store) validateStoreAddress() error { return nil }
 
-func (s Store) validateCountry() error { return nil }
+func (s Store) validateStoreCountry() error { return nil }
 
-func (s Store) validateStatus() error { return nil }
+func (s Store) validateStoreStatus() error { return nil }
 
 // Validate checks the store record to ensure data is safe to be saved
 func (s Store) Validate() error { return nil }
