@@ -111,10 +111,12 @@ func UserCreate(service UserService) func(c *gin.Context) {
 		user, err := models.NewUser(register.FirstName, register.LastName, register.Email, register.Password)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, err.Error())
+			return
 		}
 		_, err = service.Create(user)
 		if err != nil {
-			c.AbortWithError(http.StatusBadRequest, err)
+			c.JSON(http.StatusBadRequest, "ancnak")
+			return
 		}
 		c.JSON(http.StatusOK, user)
 	}
