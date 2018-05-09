@@ -108,10 +108,13 @@ func UserCreate(service UserService) func(c *gin.Context) {
 		}
 		var register Register
 		c.BindJSON(&register)
-		user, _ := models.NewUser(register.FirstName, register.LastName, register.Email, register.Password)
-		_, err := service.Create(user)
+		user, err := models.NewUser(register.FirstName, register.LastName, register.Email, register.Password)
 		if err != nil {
-			c.JSON(http.StatusBadRequest, "")
+			c.JSON(http.StatusBadRequest, err.Error())
+		}
+		_, err = service.Create(user)
+		if err != nil {
+			c.AbortWithError(http.StatusBadRequest, err)
 		}
 		c.JSON(http.StatusOK, user)
 	}
