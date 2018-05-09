@@ -1,8 +1,13 @@
 package models
 
 import (
+	"errors"
 	"time"
 )
+
+var ErrStoreNameShort = errors.New("Store name too short")
+var ErrStoreNameLong = errors.New("Store name too long")
+var ErrStoreNameInvalid = errors.New("Store name is invalid")
 
 // Store struct - there should only be 1 company director/admin
 type Store struct {
