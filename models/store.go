@@ -3,6 +3,8 @@ package models
 import (
 	"errors"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 var ErrStoreNameShort = errors.New("Store name too short")
@@ -38,3 +40,10 @@ func (s Store) validateStoreStatus() error { return nil }
 
 // Validate checks the store record to ensure data is safe to be saved
 func (s Store) Validate() error { return nil }
+
+// NewStore returns a new store struct
+func NewStore() (*Store, error) {
+	newStore := Store{}
+	newStore.ID = uuid.New().String()
+	return &Store{}, nil
+}
