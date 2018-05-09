@@ -21,11 +21,11 @@ func (i Item) validateItemName() error {
 	return nil
 }
 
-func (i Item) validateCategory() error {
+func (i Item) validateItemCategory() error {
 	return nil
 }
 
-func (i Item) validateSubCategory() error {
+func (i Item) validateItemSubCategory() error {
 	return nil
 }
 
@@ -43,6 +43,10 @@ type Category struct {
 }
 
 func (c Category) validateCategoryName() error {
+	return nil
+}
+
+func (c Category) validateCategoryDescription() error {
 	return nil
 }
 
