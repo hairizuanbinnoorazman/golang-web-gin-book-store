@@ -73,6 +73,10 @@ func (s SubCategory) validateSubCategoryDescription() error {
 	return nil
 }
 
+func (s SubCategory) Validate() error {
+	return nil
+}
+
 type ShoppingBasket struct {
 	Items []Item
 }
