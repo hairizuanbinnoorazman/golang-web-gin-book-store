@@ -65,6 +65,14 @@ type SubCategory struct {
 	UpdatedAt   time.Time
 }
 
+func (s SubCategory) validateSubCategoryName() error {
+	return nil
+}
+
+func (s SubCategory) validateSubCategoryDescription() error {
+	return nil
+}
+
 type ShoppingBasket struct {
 	Items []Item
 }
