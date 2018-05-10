@@ -47,3 +47,8 @@ func (r Role) validateStatus() error {
 // Validate function runs a couple of heuristics checks to ensure that the data being passed is
 // minimally filled up
 func (r Role) Validate() error { return nil }
+
+// NewRole functions creates a new role function with predefined values such as ID etc to be used
+func NewRole(name, description string) (*Role, error) {
+	return &Role{}, nil
+}
