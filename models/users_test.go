@@ -59,6 +59,12 @@ func TestNewUser(t *testing.T) {
 			if u.CreatedAt == emptyTime {
 				t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "Time needs to be initialized", u.CreatedAt)
 			}
+			if u.ActivationExpiryDate == emptyTime {
+				t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "Time needs to be initialized", u.ActivationExpiryDate)
+			}
+			if u.ForgetPasswordExpiryDate == emptyTime {
+				t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "Time needs to be initialized", u.ForgetPasswordExpiryDate)
+			}
 		}
 	}
 }
