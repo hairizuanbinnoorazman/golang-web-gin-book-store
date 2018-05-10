@@ -36,5 +36,8 @@ func TestRolesValidate(t *testing.T) {
 		if role.UpdatedAt == time.Date(2000, time.January, 1, 0, 0, 0, 0, time.UTC) {
 			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "Time needs to be initialized to the 2000-01-01", role.UpdatedAt)
 		}
+		if role.ID == "" {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "A UUID Value to be provided for user id", role.ID)
+		}
 	}
 }
