@@ -12,7 +12,7 @@ var ErrStoreNameLong = errors.New("Store name too long")
 var ErrStoreNameInvalid = errors.New("Store name is invalid")
 var ErrStoreStatusInvalid = errors.New("Invalid Status for Store")
 var ErrStoreCountryInvalid = errors.New("Invalid Country entry for Store")
-var ErrStoreAddress = errors.New("Invalid Address for Store")
+var ErrStoreAddressInvalid = errors.New("Invalid Address for Store")
 
 // Store struct - there should only be 1 company director/admin
 type Store struct {
