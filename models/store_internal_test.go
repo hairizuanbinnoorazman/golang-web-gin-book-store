@@ -26,3 +26,24 @@ func TestStoreValidateName(t *testing.T) {
 		}
 	}
 }
+
+func TestStoreValidateAddress(t *testing.T) {
+	type testCase struct {
+		TestName      string
+		Address       string
+		ExpectedError error
+	}
+
+	cases := []testCase{}
+
+	for _, singleCase := range cases {
+		err := Store{Address: singleCase.Address}.validateStoreAddress()
+		if err == nil && err != singleCase.ExpectedError {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), "nil")
+		} else if singleCase.ExpectedError == nil && err != singleCase.ExpectedError {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "nil", err.Error())
+		} else if err != singleCase.ExpectedError {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), err.Error())
+		}
+	}
+}
