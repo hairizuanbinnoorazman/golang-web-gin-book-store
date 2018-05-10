@@ -39,11 +39,11 @@ func TestRoleValidateStatus(t *testing.T) {
 	}
 
 	cases := []testCase{
-		{TestName: "Empty Status", InputRole: Role{Status: ""}, ExpectedError: ErrInvalidStatus},
+		{TestName: "Empty Status", InputRole: Role{Status: ""}, ExpectedError: ErrInvalidRoleStatus},
 		{TestName: "Active Status", InputRole: Role{Status: "active"}, ExpectedError: nil},
 		{TestName: "Deactivated Status", InputRole: Role{Status: "deactivated"}, ExpectedError: nil},
 		{TestName: "Depreciated Status", InputRole: Role{Status: "depreciated"}, ExpectedError: nil},
-		{TestName: "Active Status", InputRole: Role{Status: "Active"}, ExpectedError: ErrInvalidStatus},
+		{TestName: "Active Status", InputRole: Role{Status: "Active"}, ExpectedError: ErrInvalidRoleStatus},
 	}
 
 	for _, singleCase := range cases {
