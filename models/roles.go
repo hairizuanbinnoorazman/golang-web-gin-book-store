@@ -23,7 +23,12 @@ type Role struct {
 // There are only very few specific roles that are accepted.
 // Role Names: Managerial, StoreAdmin, Supplier
 // Role names need to be lowercased
-func (r Role) validateName() error { return nil }
+func (r Role) validateName() error {
+	if r.Name == "manager" || r.Name == "storeadmin" || r.Name == "supplier" {
+		return nil
+	}
+	return ErrInvalidRoleName
+}
 
 func (r Role) validateDescription() error { return nil }
 
