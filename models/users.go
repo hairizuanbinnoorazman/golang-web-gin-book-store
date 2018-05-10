@@ -51,9 +51,10 @@ func NewUser(firstName, lastName, email, password string) (*User, error) {
 	user.ID = uuid.New().String()
 	user.ActivationToken = uuid.New().String()
 	user.CreatedAt = time.Now()
-	user.LastLoginAt = time.Date(1900, time.January, 1, 0, 0, 0, 0, time.UTC)
-	user.ForgetPasswordExpiryDate = time.Date(1900, time.January, 1, 0, 0, 0, 0, time.UTC)
-	user.ActivationExpiryDate = time.Date(1900, time.January, 1, 0, 0, 0, 0, time.UTC)
+	user.LastLoginAt = time.Date(2000, time.January, 1, 0, 0, 0, 0, time.UTC)
+	user.UpdatedAt = time.Date(2000, time.January, 1, 0, 0, 0, 0, time.UTC)
+	user.ForgetPasswordExpiryDate = time.Date(2000, time.January, 1, 0, 0, 0, 0, time.UTC)
+	user.ActivationExpiryDate = time.Date(2000, time.January, 1, 0, 0, 0, 0, time.UTC)
 	if err != nil {
 		return nil, err
 	}
