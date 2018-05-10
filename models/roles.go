@@ -32,12 +32,6 @@ func (r Role) validateDescription() error { return nil }
 // Status of the role has to be lowercased
 func (r Role) validateStatus() error { return nil }
 
-// Need to check the value is actually created on initial save
-func (r Role) validateCreatedAt() error { return nil }
-
-// Need to check the value is actuall created on initial save and subsequent saves
-func (r Role) validateUpdatedAt() error { return nil }
-
 // Validate function runs a couple of heuristics checks to ensure that the data being passed is
 // minimally filled up
 func (r Role) Validate() error { return nil }
