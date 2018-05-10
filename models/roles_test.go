@@ -14,12 +14,37 @@ func TestRolesValidate(t *testing.T) {
 		ExpectedError error
 	}
 
-	timeCreationTest := time.Now()
 	cases := []testCase{}
 
 	for _, singleCase := range cases {
 		role := singleCase.InputRole
 		err := role.Validate()
+		if err == nil && err != singleCase.ExpectedError {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), "nil")
+		}
+		if singleCase.ExpectedError == nil && err != singleCase.ExpectedError {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, "nil", err.Error())
+		}
+		if err != singleCase.ExpectedError {
+			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), err.Error())
+		}
+
+	}
+}
+
+func TestNewRoles(t *testing.T) {
+	type testCase struct {
+		TestName      string
+		Name          string
+		Description   string
+		ExpectedError error
+	}
+
+	timeCreationTest := time.Now()
+	cases := []testCase{}
+
+	for _, singleCase := range cases {
+		role, err := models.NewRole(singleCase.Name, singleCase.Description)
 		if err == nil && err != singleCase.ExpectedError {
 			t.Errorf("Test Name: %s Expected Output: %s Received output: %s", singleCase.TestName, singleCase.ExpectedError.Error(), "nil")
 		}
