@@ -14,7 +14,7 @@ import (
 //
 // Having this allows us to mock the services and test it without hitting databases/external 3rd party APIs
 type RouteServices struct {
-	User users.Service
+	User users.MySQLService
 }
 
 func setupRouter(rs RouteServices) *gin.Engine {
@@ -51,7 +51,7 @@ func main() {
 	var db services.Storage
 	db.NewDB()
 	db.AutoMigrate()
-	userService := services.User{}
+	userService := users.MySQLService{}
 	userService.DB = db.DB
 	rs := RouteServices{User: userService}
 	router := setupRouter(rs)
