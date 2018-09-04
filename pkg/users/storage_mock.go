@@ -5,24 +5,24 @@ import (
 	"github.com/hairizuanbinnoorazman/golang-web-gin-book-store/models"
 )
 
-type MockService struct{}
+type MockStorage struct{}
 
-func (u MockService) GetByID(ID string) (models.User, error) {
+func (u MockStorage) GetByID(ID string) (models.User, error) {
 	a := models.User{ID: uuid.New().String(), FirstName: "John", LastName: "Kelly"}
 	return a, nil
 }
 
-func (u MockService) GetByEmail(Email string) (models.User, error) {
+func (u MockStorage) GetByEmail(Email string) (models.User, error) {
 	a := models.User{ID: uuid.New().String(), FirstName: "John", LastName: "Kelly"}
 	return a, nil
 }
 
-func (u MockService) Create(*models.User) (models.User, error) {
+func (u MockStorage) Create(*models.User) (models.User, error) {
 	a := models.User{ID: uuid.New().String(), FirstName: "John", LastName: "Kelly"}
 	return a, nil
 }
 
-func (u MockService) Update(*models.User) (models.User, error) {
+func (u MockStorage) Update(*models.User) (models.User, error) {
 	a := models.User{ID: uuid.New().String(), FirstName: "John", LastName: "Kelly"}
 	return a, nil
 }
