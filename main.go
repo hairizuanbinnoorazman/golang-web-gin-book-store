@@ -4,6 +4,7 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/hairizuanbinnoorazman/golang-web-gin-book-store/handlers"
+	"github.com/hairizuanbinnoorazman/golang-web-gin-book-store/pkg/users"
 	"github.com/hairizuanbinnoorazman/golang-web-gin-book-store/services"
 )
 
@@ -13,7 +14,7 @@ import (
 //
 // Having this allows us to mock the services and test it without hitting databases/external 3rd party APIs
 type RouteServices struct {
-	User handlers.UserService
+	User users.Service
 }
 
 func setupRouter(rs RouteServices) *gin.Engine {
