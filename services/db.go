@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/hairizuanbinnoorazman/golang-web-gin-book-store/models"
+	"github.com/hairizuanbinnoorazman/golang-web-gin-book-store/pkg/users"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
@@ -25,7 +26,7 @@ func (s *Storage) NewDB() {
 }
 
 func (s *Storage) AutoMigrate() {
-	s.DB.AutoMigrate(&models.User{})
+	s.DB.AutoMigrate(&users.User{})
 	s.DB.AutoMigrate(&models.Role{})
 	s.DB.AutoMigrate(&models.Transaction{})
 	s.DB.AutoMigrate(&models.Receipt{})
