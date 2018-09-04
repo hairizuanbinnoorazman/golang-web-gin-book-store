@@ -16,9 +16,9 @@ var ErrStoreAddressInvalid = errors.New("Invalid Address for Store")
 
 // Store struct - there should only be 1 company director/admin
 type Store struct {
-	ID          string
-	Name        string
-	AdminUser   AdminUser
+	ID   string
+	Name string
+	// AdminUser   AdminUser
 	AdminUserID string
 	Address     string
 	Country     string
