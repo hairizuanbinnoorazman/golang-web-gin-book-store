@@ -3,18 +3,10 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/gin-gonic/gin"
-	"github.com/hairizuanbinnoorazman/golang-web-gin-book-store/models"
-)
+	"github.com/hairizuanbinnoorazman/golang-web-gin-book-store/pkg/users"
 
-// UserService interfaces defines the list of methods that the service needs to provide
-// for the user handlers
-type UserService interface {
-	GetByID(ID string) (models.User, error)
-	GetByEmail(Email string) (models.User, error)
-	Create(*models.User) (models.User, error)
-	Update(*models.User) (models.User, error)
-}
+	"github.com/gin-gonic/gin"
+)
 
 type JWTService interface {
 	NewToken(id string) (string, error)
@@ -22,7 +14,7 @@ type JWTService interface {
 }
 
 // UserSignIn is a handler function meant to handle user signin
-func UserSignIn(service UserService, jwt JWTService) func(c *gin.Context) {
+func UserSignIn(service users.Service, jwt JWTService) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		// Obtain the request details
 		type UserSignIn struct {
@@ -55,7 +47,7 @@ func UserSignIn(service UserService, jwt JWTService) func(c *gin.Context) {
 }
 
 // UserActivate is a handler function meant to handle activation of users on the platform
-func UserActivate(service UserService) func(c *gin.Context) {
+func UserActivate(service users.Service) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		// Obtain the token and id value from the query params
 		q := c.Request.URL.Query()
@@ -76,7 +68,7 @@ func UserActivate(service UserService) func(c *gin.Context) {
 
 // UserConfirmForget is a handler function meant to handle change of password
 // after the token and new password is passed in
-func UserConfirmForget(service UserService) func(c *gin.Context) {
+func UserConfirmForget(service users.Service) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		type ConfirmForget struct {
 			ForgetToken string
@@ -98,7 +90,7 @@ func UserConfirmForget(service UserService) func(c *gin.Context) {
 }
 
 // UserCreate is a handler function meant to handle creation of new users
-func UserCreate(service UserService) func(c *gin.Context) {
+func UserCreate(service users.Service) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		type Register struct {
 			FirstName string `json:"first_name"`
@@ -108,7 +100,7 @@ func UserCreate(service UserService) func(c *gin.Context) {
 		}
 		var register Register
 		c.BindJSON(&register)
-		user, err := models.NewUser(register.FirstName, register.LastName, register.Email, register.Password)
+		user, err := users.NewUser(register.FirstName, register.LastName, register.Email, register.Password)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, err.Error())
 			return
@@ -123,7 +115,7 @@ func UserCreate(service UserService) func(c *gin.Context) {
 }
 
 // UserGet is a handler function meant to handle creation of getting details of a user
-func UserGet(service UserService) func(c *gin.Context) {
+func UserGet(service users.Service) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		id := c.Param("id")
 		user, err := service.GetByID(id)
@@ -135,7 +127,7 @@ func UserGet(service UserService) func(c *gin.Context) {
 }
 
 // UserUpdate is a handler function meant to handle update of the details of a user
-func UserUpdate(service UserService) func(c *gin.Context) {
+func UserUpdate(service users.Service) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		type userUpdate struct {
 			ID        string
@@ -162,7 +154,7 @@ func UserUpdate(service UserService) func(c *gin.Context) {
 
 // UserForgetPassword is a handler function meant to initiate the creation of
 // forget password tokens etc
-func UserForgetPassword(service UserService) func(c *gin.Context) {
+func UserForgetPassword(service users.Service) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		type userForget struct {
 			Email string `json:"email"`
