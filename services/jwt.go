@@ -5,7 +5,6 @@ import (
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
-	"github.com/spf13/viper"
 )
 
 // ErrJWTSigning is an error thrown during the JWT Signing process
@@ -21,11 +20,11 @@ type JWTCustomClaims struct {
 }
 
 // NewToken creates a new JWT token that is to be used by the application
-func NewToken(id string) (string, error) {
-	exp := viper.GetInt("jwt_expire")
-	secret := viper.GetString("jwt_secret")
-	issuer := viper.GetString("jwt_issuer")
-
+// id generally refer to a string to be stored - in this case is user id
+// exp is the expiry in the number of seconds after its issue
+// issuer is to specify the application that is providing this token as an identifier
+// secret is to seal everything into the token
+func NewToken(id string, exp int, secret, issuer string) (string, error) {
 	claims := JWTCustomClaims{
 		id,
 		jwt.StandardClaims{
@@ -46,10 +45,7 @@ func NewToken(id string) (string, error) {
 // ExtractToken takes a JWT Token that is used by the application and extracts the values out
 // with the application secret. If process goes well, it would be able to
 // return the values
-func ExtractToken(tokenString string) (string, error) {
-	// Retrive secret for retriving values
-	secret := viper.GetString("jwt_secret")
-
+func ExtractToken(tokenString, secret string) (string, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &JWTCustomClaims{},
 		func(token *jwt.Token) (interface{}, error) {
 			return []byte(secret), nil
