@@ -24,3 +24,7 @@
 [[constraint]]
   branch = "master"
   name = "golang.org/x/oauth2"
+
+[[constraint]]
+  name = "github.com/gorilla/handlers"
+  version = "1.4.0"
